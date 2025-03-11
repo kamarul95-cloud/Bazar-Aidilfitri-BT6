@@ -4,20 +4,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
   <title>Senarai Peniaga Bazar Aidilfitri Batu Enam</title>
   <style>
-    /* Latar belakang dengan gambar */
+    /* Latar belakang tema Aidilfitri */
     body {
       font-family: Smooth Fantasy, sans-serif;
-      background: url('https://i.ibb.co/1ffwLFjn/Blue-White-Minimalist-Illustrastion-Ramadan-Mubarak-Quote-Poster.png') no-repeat center center fixed;
-      background-size: cover;
+      background: #F7E9D7;
       margin: 0;
       padding: 20px;
     }
     h1 {
       text-align: center;
       color: #040a04;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 10px;
-      border-radius: 10px;
     }
     /* Gaya jadual */
     table {
@@ -26,10 +22,8 @@
       margin: 20px auto;
       border-collapse: collapse;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      table-layout: fixed;
-      font-size: 11.5px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 10px;
+      table-layout: fixed; /* Pastikan jadual kekal dalam lebar ditetapkan */
+      font-size: 11.5px; /* Kecilkan saiz font */
     }
     th, td {
       padding: 8px;
@@ -37,6 +31,7 @@
       text-align: left;
       word-wrap: break-word;
     }
+    /* Luaskan kolum Nama (1) dan No Tel (2) */
     th:nth-child(1), td:nth-child(1) {
       width: 30%;
     }
@@ -63,14 +58,17 @@
   <h1>Senarai Peniaga Bazar Aidilfitri Batu Enam</h1>
   <table id="data-table">
     <thead>
+      <!-- Header ditulis secara statik -->
       <tr>
         <th>Nama</th>
-        <th>No Tel (tekan untuk WhatsApp)</th>
+        <th>No Tel (tekan untuk whatsapp)</th>
         <th>No Tapak</th>
         <th>Jumlah Tapak</th>
       </tr>
     </thead>
-    <tbody id="data-body"></tbody>
+    <tbody id="data-body">
+      <!-- Data akan dimuatkan di sini -->
+    </tbody>
     <tfoot>
       <tr>
         <td colspan="3" style="text-align:right;">Jumlah Keseluruhan:</td>
@@ -80,16 +78,20 @@
   </table>
 
   <script>
+    // Fungsi untuk mengesan sama ada peranti yang digunakan adalah mudah alih
     function isMobileDevice() {
       return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
+    // URL Sheet 2 yang telah dipublish sebagai CSV
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThrBgKpqBgKp0xk81AhDmKahmpFZm-y3ZzARip3JkcfWl_fm7KZRf8BI08pL7i1Y1Y5C-aoly9ArfG/pub?gid=1297423905&single=true&output=csv';
 
     fetch(sheetUrl)
       .then(response => response.text())
       .then(csvText => {
+        // Pisahkan CSV ke dalam baris dan buang baris kosong
         const rows = csvText.split('\n').filter(row => row.trim() !== "");
+        // Langkau baris pertama (header) dan baris yang mengandungi perkataan "jumlah"
         const dataRows = rows.slice(1).filter(row => !row.toLowerCase().includes("jumlah"));
         let totalSum = 0;
         const tbody = document.getElementById('data-body');
@@ -101,9 +103,16 @@
             const td = document.createElement('td');
             const trimmedCol = col.trim();
 
+            // Jika indeks 1 (No Tel), jadikan sebagai pautan WhatsApp
             if (index === 1 && trimmedCol !== "") {
               const a = document.createElement('a');
-              const link = isMobileDevice() ? https://wa.me/${trimmedCol} : https://api.whatsapp.com/send?phone=${trimmedCol};
+              // Gunakan URL yang berbeza bergantung kepada peranti
+              let link;
+              if (isMobileDevice()) {
+                link = https://wa.me/${trimmedCol};
+              } else {
+                link = https://api.whatsapp.com/send?phone=${trimmedCol};
+              }
               a.href = link;
               a.target = '_blank';
               a.style.textDecoration = 'none';
@@ -113,7 +122,10 @@
             } else {
               td.textContent = trimmedCol;
             }
+            
+            tr.appendChild(td);
 
+            // Anggap lajur ke-4 (indeks 3) adalah "Jumlah Tapak"
             if (index === 3) {
               let num = trimmedCol.replace(/[^0-9.-]+/g, "");
               num = parseFloat(num);
