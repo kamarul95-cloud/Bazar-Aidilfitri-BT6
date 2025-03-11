@@ -15,6 +15,19 @@
       text-align: center;
       color: #040a04;
     }
+    /* Kotak carian */
+    .search-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      width: 80%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
     /* Gaya jadual */
     table {
       width: 100%;
@@ -56,9 +69,14 @@
 </head>
 <body>
   <h1>Senarai Peniaga Bazar Aidilfitri Batu Enam</h1>
+
+  <!-- Kotak carian -->
+  <div class="search-container">
+    <input type="text" id="search" placeholder="Cari Nama atau No Tapak..." onkeyup="searchTable()">
+  </div>
+
   <table id="data-table">
     <thead>
-      <!-- Header ditulis secara statik -->
       <tr>
         <th>Nama</th>
         <th>No Tel (tekan untuk whatsapp)</th>
@@ -66,9 +84,7 @@
         <th>Jumlah Tapak</th>
       </tr>
     </thead>
-    <tbody id="data-body">
-      <!-- Data akan dimuatkan di sini -->
-    </tbody>
+    <tbody id="data-body"></tbody>
     <tfoot>
       <tr>
         <td colspan="3" style="text-align:right;">Jumlah Keseluruhan:</td>
@@ -89,9 +105,7 @@
     fetch(sheetUrl)
       .then(response => response.text())
       .then(csvText => {
-        // Pisahkan CSV ke dalam baris dan buang baris kosong
         const rows = csvText.split('\n').filter(row => row.trim() !== "");
-        // Langkau baris pertama (header) dan baris yang mengandungi perkataan "jumlah"
         const dataRows = rows.slice(1).filter(row => !row.toLowerCase().includes("jumlah"));
         let totalSum = 0;
         const tbody = document.getElementById('data-body');
@@ -103,16 +117,11 @@
             const td = document.createElement('td');
             const trimmedCol = col.trim();
 
-            // Jika indeks 1 (No Tel), jadikan sebagai pautan WhatsApp
             if (index === 1 && trimmedCol !== "") {
               const a = document.createElement('a');
-              // Gunakan URL yang berbeza bergantung kepada peranti
-              let link;
-              if (isMobileDevice()) {
-                link = https://wa.me/${trimmedCol};
-              } else {
-                link = https://api.whatsapp.com/send?phone=${trimmedCol};
-              }
+              let link = isMobileDevice() 
+                ? https://wa.me/${trimmedCol}
+                : https://api.whatsapp.com/send?phone=${trimmedCol};
               a.href = link;
               a.target = '_blank';
               a.style.textDecoration = 'none';
@@ -122,23 +131,36 @@
             } else {
               td.textContent = trimmedCol;
             }
-            
-            tr.appendChild(td);
 
-            // Anggap lajur ke-4 (indeks 3) adalah "Jumlah Tapak"
             if (index === 3) {
               let num = trimmedCol.replace(/[^0-9.-]+/g, "");
               num = parseFloat(num);
-              if (!isNaN(num)) {
-                totalSum += num;
-              }
+              if (!isNaN(num)) totalSum += num;
             }
+            tr.appendChild(td);
           });
           tbody.appendChild(tr);
         });
         document.getElementById('total-sum').textContent = totalSum.toLocaleString();
       })
       .catch(error => console.error('Error fetching data:', error));
+
+    // Fungsi carian
+    function searchTable() {
+      const input = document.getElementById('search').value.toLowerCase();
+      const rows = document.querySelectorAll('#data-table tbody tr');
+      
+      rows.forEach(row => {
+        const nama = row.cells[0].textContent.toLowerCase();
+        const noTapak = row.cells[2].textContent.toLowerCase();
+
+        if (nama.includes(input) || noTapak.includes(input)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
   </script>
 </body>
 </html>
