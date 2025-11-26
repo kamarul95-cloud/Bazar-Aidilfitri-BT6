@@ -1,172 +1,361 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
-  <title>Senarai Peniaga Bazar Aidilfitri Batu Enam</title>
-  <style>
-    /* Latar belakang tema Aidilfitri */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Senarai Peniaga Bazar Aidilfitri Batu Enam</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+    :root {
+        --primary: #0f5132; /* Hijau Gelap Eksklusif */
+        --accent: #d4af37;  /* Emas */
+        --bg: #f3f4f6;      /* Kelabu Lembut */
+        --card-bg: #ffffff;
+        --text: #1f2937;
+        --radius: 12px;
+    }
+
     body {
-      font-family: Smooth Fantasy, sans-serif;
-      background: #F7E9D7;
-      margin: 0;
-      padding: 20px;
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--bg);
+        margin: 0;
+        padding: 20px;
+        color: var(--text);
+        background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+        background-size: 20px 20px;
     }
+
+    /* Header Section */
+    .header-container {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-top: 10px;
+    }
+
     h1 {
-      text-align: center;
-      color: #040a04;
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 1.5rem;
+        margin-bottom: 5px;
     }
-    /* Kotak carian */
-    .search-container {
-      text-align: center;
-      margin-bottom: 20px;
+    
+    p.subtitle {
+        color: #6b7280;
+        font-size: 0.9rem;
+        margin: 0;
     }
-    input[type="text"] {
-      padding: 8px;
-      width: 80%;
-      max-width: 400px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
+
+    /* Search Bar Modern */
+    .search-wrapper {
+        max-width: 600px;
+        margin: 0 auto 25px;
+        position: relative;
     }
-    /* Gaya jadual */
+
+    .search-input {
+        width: 100%;
+        padding: 15px 20px 15px 50px;
+        border: none;
+        border-radius: 50px;
+        background: white;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        font-family: 'Poppins', sans-serif;
+        font-size: 1rem;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+        outline: none;
+        box-shadow: 0 4px 20px rgba(15, 81, 50, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+    }
+
+    /* Table Styling */
+    .table-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        border-radius: var(--radius);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        overflow: hidden;
+    }
+
     table {
-      width: 100%;
-      max-width: 800px;
-      margin: 20px auto;
-      border-collapse: collapse;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      table-layout: fixed; /* Pastikan jadual kekal dalam lebar ditetapkan */
-      font-size: 11.5px; /* Kecilkan saiz font */
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
     }
-    th, td {
-      padding: 8px;
-      border: 1px solid #ddd;
-      text-align: left;
-      word-wrap: break-word;
+
+    thead {
+        background: var(--primary);
+        color: white;
     }
-    /* Luaskan kolum Nama (1) dan No Tel (2) */
-    th:nth-child(1), td:nth-child(1) {
-      width: 28%;
-    }
-    th:nth-child(2), td:nth-child(2) {
-      width: 29%;
-    }
-    th:nth-child(3), td:nth-child(3) {
-      width: 29%;
-    }
-    th:nth-child(4), td:nth-child(4) {
-      width: 14%;
-    }
+
     th {
-      background-color: #FFA726;
-      color: #fff;
+        padding: 18px 20px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
     }
-    tr:nth-child(even) {
-      background-color: #FFF3E0;
+
+    td {
+        padding: 16px 20px;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 0.95rem;
+        color: #374151;
     }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
     tr:hover {
-      background-color: #FFE0B2;
+        background-color: #f9fafb;
     }
-    tfoot tr {
-      background-color: #FFCC80;
-      font-weight: bold;
+
+    /* Badge & Button Styling */
+    .tapak-badge {
+        background-color: #eef2ff;
+        color: var(--primary);
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        border: 1px solid #c7d2fe;
     }
-  </style>
+
+    .wa-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background-color: #25D366;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: transform 0.2s;
+        box-shadow: 0 2px 5px rgba(37, 211, 102, 0.3);
+    }
+
+    .wa-btn:hover {
+        transform: scale(1.05);
+        background-color: #1ebc57;
+    }
+
+    /* Footer / Total */
+    .table-footer {
+        padding: 20px;
+        background: #fffbef;
+        border-top: 2px dashed var(--accent);
+        text-align: right;
+        font-weight: 600;
+        color: var(--primary);
+    }
+
+    /* MOBILE RESPONSIVE VIEW (Magic Happens Here) */
+    @media (max-width: 768px) {
+        body { padding: 15px; }
+        
+        .table-container {
+            background: transparent;
+            box-shadow: none;
+        }
+
+        /* Hide standard table headers */
+        thead { display: none; }
+
+        /* Make rows look like cards */
+        tr {
+            display: block;
+            background: white;
+            margin-bottom: 15px;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border: 1px solid #f0f0f0;
+            padding: 15px;
+        }
+
+        td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f3f4f6;
+            text-align: right;
+        }
+
+        td:last-child { border-bottom: none; }
+
+        /* Add labels using CSS specific to columns */
+        td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            text-align: left;
+            margin-right: 15px;
+        }
+
+        /* Specific tweak for name to look like header */
+        td[data-label="Nama"] {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+            display: block;
+            text-align: left;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        td[data-label="Nama"]::before { display: none; }
+        
+        /* Adjust footer for mobile */
+        .table-footer {
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 10px;
+        }
+    }
+</style>
 </head>
 <body>
-  <h1>Senarai Peniaga Bazar Aidilfitri Batu Enam</h1>
 
-  <!-- Kotak carian -->
-  <div class="search-container">
-    <input type="text" id="search" placeholder="Cari Nama atau No Tapak..." onkeyup="searchTable()">
-  </div>
+    <div class="header-container">
+        <h1><i class="fas fa-mosque"></i> Bazar Aidilfitri Batu Enam</h1>
+        <p class="subtitle">Senarai Peniaga & Lokasi Tapak</p>
+    </div>
 
-  <table id="data-table">
-    <thead>
-      <tr>
-        <th>Nama</th>
-        <th>No Tel (tekan untuk whatsapp)</th>
-        <th>No Tapak</th>
-        <th>Jumlah Tapak</th>
-      </tr>
-    </thead>
-    <tbody id="data-body"></tbody>
-    <tfoot>
-      <tr>
-        <td colspan="3" style="text-align:right;">Jumlah Keseluruhan:</td>
-        <td id="total-sum"></td>
-      </tr>
-    </tfoot>
-  </table>
+    <div class="search-wrapper">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="search" class="search-input" placeholder="Cari Nama Peniaga atau No Tapak..." onkeyup="searchTable()">
+    </div>
 
-  <script>
-    // Fungsi untuk mengesan sama ada peranti yang digunakan adalah mudah alih
-    function isMobileDevice() {
-      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    }
+    <div class="table-container">
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th style="width: 35%">Nama Peniaga</th>
+                    <th style="width: 25%">WhatsApp</th>
+                    <th style="width: 25%">No. Tapak</th>
+                    <th style="width: 15%">Unit</th>
+                </tr>
+            </thead>
+            <tbody id="data-body">
+                </tbody>
+        </table>
+        <div class="table-footer">
+            Jumlah Keseluruhan Tapak: <span id="total-sum" style="font-size:1.2rem; color:#d97706;">0</span>
+        </div>
+    </div>
 
-    // URL Sheet 2 yang telah dipublish sebagai CSV
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThrBgKpqBgKp0xk81AhDmKahmpFZm-y3ZzARip3JkcfWl_fm7KZRf8BI08pL7i1Y1Y5C-aoly9ArfG/pub?gid=1297423905&single=true&output=csv';
-
-    fetch(sheetUrl)
-      .then(response => response.text())
-      .then(csvText => {
-        const rows = csvText.split('\n').filter(row => row.trim() !== "");
-        const dataRows = rows.slice(1).filter(row => !row.toLowerCase().includes("jumlah"));
-        let totalSum = 0;
-        const tbody = document.getElementById('data-body');
-
-        dataRows.forEach(row => {
-          const columns = row.split(',');
-          const tr = document.createElement('tr');
-          columns.forEach((col, index) => {
-            const td = document.createElement('td');
-            const trimmedCol = col.trim();
-
-            if (index === 1 && trimmedCol !== "") {
-              const a = document.createElement('a');
-              let link = isMobileDevice() 
-                ? `https://wa.me/${trimmedCol}`
-                : `https://api.whatsapp.com/send?phone=${trimmedCol}`;
-              a.href = link;
-              a.target = '_blank';
-              a.style.textDecoration = 'none';
-              a.style.color = 'inherit';
-              a.textContent = trimmedCol;
-              td.appendChild(a);
-            } else {
-              td.textContent = trimmedCol;
-            }
-
-            if (index === 3) {
-              let num = trimmedCol.replace(/[^0-9.-]+/g, "");
-              num = parseFloat(num);
-              if (!isNaN(num)) totalSum += num;
-            }
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
-        });
-        document.getElementById('total-sum').textContent = totalSum.toLocaleString();
-      })
-      .catch(error => console.error('Error fetching data:', error));
-
-    // Fungsi carian
-    function searchTable() {
-      const input = document.getElementById('search').value.toLowerCase();
-      const rows = document.querySelectorAll('#data-table tbody tr');
-      
-      rows.forEach(row => {
-        const nama = row.cells[0].textContent.toLowerCase();
-        const noTapak = row.cells[2].textContent.toLowerCase();
-
-        if (nama.includes(input) || noTapak.includes(input)) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
+    <script>
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         }
-      });
-    }
-  </script>
+
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vThrBgKpqBgKp0xk81AhDmKahmpFZm-y3ZzARip3JkcfWl_fm7KZRf8BI08pL7i1Y1Y5C-aoly9ArfG/pub?gid=1297423905&single=true&output=csv';
+
+        // Label untuk Mobile View (Wajib sama turutan dengan CSV column)
+        const headers = ["Nama", "Hubungi", "No Tapak", "Jumlah"];
+
+        fetch(sheetUrl)
+        .then(response => response.text())
+        .then(csvText => {
+            const rows = csvText.split('\n').filter(row => row.trim() !== "");
+            // Filter header dan baris 'Jumlah' jika ada dalam CSV
+            const dataRows = rows.slice(1).filter(row => !row.toLowerCase().includes("jumlah"));
+            
+            let totalSum = 0;
+            const tbody = document.getElementById('data-body');
+
+            dataRows.forEach(row => {
+                // Split CSV dengan mudah (Nota: Ini akan pecah jika ada koma dalam nama)
+                const columns = row.split(','); 
+                const tr = document.createElement('tr');
+
+                columns.forEach((col, index) => {
+                    const td = document.createElement('td');
+                    const trimmedCol = col.trim();
+                    
+                    // Set label untuk mobile responsive CSS
+                    td.setAttribute('data-label', headers[index] || "Info");
+
+                    // LOGIC COLUMN 1 (NAMA)
+                    if (index === 0) {
+                        td.innerHTML = `<div>${trimmedCol}</div>`;
+                    }
+                    
+                    // LOGIC COLUMN 2 (WHATSAPP)
+                    else if (index === 1) {
+                        if (trimmedCol !== "") {
+                            let cleanNum = trimmedCol.replace(/[^0-9]/g, '');
+                            // Fix number format 60...
+                            if(cleanNum.startsWith('01')) cleanNum = '6' + cleanNum;
+                            
+                            const link = isMobileDevice() 
+                                ? `https://wa.me/${cleanNum}` 
+                                : `https://api.whatsapp.com/send?phone=${cleanNum}`;
+                            
+                            td.innerHTML = `<a href="${link}" target="_blank" class="wa-btn">
+                                <i class="fab fa-whatsapp"></i> ${trimmedCol}
+                            </a>`;
+                        } else {
+                            td.textContent = "-";
+                        }
+                    }
+                    
+                    // LOGIC COLUMN 3 (NO TAPAK)
+                    else if (index === 2) {
+                        td.innerHTML = `<span class="tapak-badge">${trimmedCol}</span>`;
+                    }
+                    
+                    // LOGIC COLUMN 4 (JUMLAH)
+                    else {
+                        td.textContent = trimmedCol;
+                        let num = parseFloat(trimmedCol);
+                        if (!isNaN(num)) totalSum += num;
+                    }
+
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+            document.getElementById('total-sum').textContent = totalSum.toLocaleString();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('data-body').innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:red;">Gagal memuat turun data. Sila refresh.</td></tr>`;
+        });
+
+        function searchTable() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const rows = document.querySelectorAll('#data-body tr');
+            
+            rows.forEach(row => {
+                const nama = row.cells[0]?.textContent.toLowerCase() || "";
+                const noTapak = row.cells[2]?.textContent.toLowerCase() || "";
+
+                if (nama.includes(input) || noTapak.includes(input)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
